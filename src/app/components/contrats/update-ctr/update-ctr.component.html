@@ -1,0 +1,16 @@
+<div class="container" *ngIf="contratFormGroup">
+    <form [formGroup]="contratFormGroup" (ngSubmit)="onSaveUpdate()">
+        <div class="form-group">
+            <label>Id</label>
+            <input type="text" class="form-control" formControlName="id" id="id">            
+        </div>
+        <div class="form-group">
+            <label>Produit</label>
+            <input type="text" class="form-control" formControlName="produit" id="produit"
+                   [ngClass]="{'is-invalid':submitted && contratFormGroup.controls['produit'].errors}">
+            <div *ngIf="submitted && contratFormGroup.controls['produit'].errors" class="invalid-feedback">
+                <div *ngIf="contratFormGroup.controls['produit'].errors['required']">Produit is Required</div>
+            </div>
+        </div>
+    </form>
+</div>

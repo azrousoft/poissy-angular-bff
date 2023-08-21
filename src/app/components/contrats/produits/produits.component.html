@@ -1,0 +1,44 @@
+<p>produits works!</p>
+<p>Satus API Produit: {{statusProduitApi}}</p>
+<p>Satus Sante BFF: {{statusSanteBff}}</p>
+<hr/>
+
+
+
+<div class="container my-3" *ngIf="produits">
+    <h3>Produits:</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let p of produits">
+                <td>{{p.code}}</td>
+                <td>{{p.libelle}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<hr/>
+
+<div class="container">
+    <legend>Add produit</legend>
+    <form [formGroup]="produitForm" (ngSubmit)="saveProduit()">
+        <label for="code">Code :</label>
+        <input type="text" id="code" formControlName="code" />
+        <div *ngIf="f['code'].errors">
+            <div *ngIf="f['code'].errors['required']">Code is reuired</div>
+            <div *ngIf="f['code'].errors['maxlength']">max = 3 char</div>
+        </div>
+        
+
+        <label for="libelle">Libelle :</label>
+        <input type="text" id="libelle" formControlName="libelle" />
+        <div *ngIf="f['libelle'].errors && f['libelle'].errors['required']">libelle is reuired</div>
+        <button type="submit">Valider</button>
+    </form>
+</div>

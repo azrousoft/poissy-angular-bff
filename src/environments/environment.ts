@@ -3,7 +3,23 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  host : "http://localhost",
+  hostSec : "https://localhost",  
+  santePort: 9181,
+  statusUrlClientApi: "/api/v1/clients/status",
+  statusUrlSanteBff: "/api/v1/sante/public/clients",
+  clientUrl: "/api/v1/clients/",
+  clientPort: 9082,
+
+  //****************************** */
+  contratUrl: "/api/v1/contrats",
+  contratPort: 9083,
+  contratConsultationUrl:"/api/v1/consultation/contrats/",
+  contratPagingConsultationUrl: "/api/v1/consultation/contrats/paging",
+  contratSearchConsultationUrl: "/api/v1/consultation/contrats/search",
+  //********************************************* */
+  elementsPerPage: 15
 };
 
 /*
