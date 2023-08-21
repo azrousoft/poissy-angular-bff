@@ -1,0 +1,24 @@
+<tr *ngIf="contrat">
+    <td>{{contrat.numero}}</td>
+    <td>{{contrat.numeroProduit}}</td>
+    <td>{{contrat.numeroClient}}</td>
+    <td>{{contrat.dateEmission}}</td>
+    <td>{{contrat.type}}</td>
+    <td>
+      <button (click)="onSelect(contrat)" [ngClass]="contrat.emit?'btn-success':'btn-danger'" class="btn btn-sm">
+        <span *ngIf="contrat.emit">Emit</span>
+        <span *ngIf="!contrat.emit">Non emit</span>
+      </button>
+    </td>
+    <td>{{contrat.envigeur}}</td>
+    <td>
+      <button class="btn btn-danger" (click)="onDelete(contrat)">
+        <span class="fa fa-trash-o"></span>
+      </button>
+    </td>
+    <td>
+      <button class="btn btn-danger" (click)="onEdit(contrat)">
+        <span class="fa fa-edit"></span>
+      </button>
+    </td>    
+</tr>

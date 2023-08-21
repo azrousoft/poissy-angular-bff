@@ -13,6 +13,7 @@ export class EventDriverService{
      * 
      * @param event Pour publier des event dans le subject
      * Chaque component qui veut recevoir cet event doit subscribe to contratSourceEventSubjectObservable
+     * contratSourceEventSubject: broker
      */
     publishEvent(event: PageActionEvent){
         this.contratSourceEventSubject.next(event);

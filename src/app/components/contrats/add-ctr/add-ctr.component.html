@@ -1,5 +1,5 @@
 <div class="container" *ngIf="contratFormGroup">
-    <form [formGroup]="contratFormGroup" (ngSubmit)="onSave()">
+    <form [formGroup]="contratFormGroup" (ngSubmit)="onSavecontrat()">
         <div class="form-group">
             <label>Produit</label>
             <input type="text" class="form-control" formControlName="produit" id="produit"
@@ -8,6 +8,21 @@
                 <div *ngIf="contratFormGroup.controls['produit'].errors['required']">Produit is Required</div>
             </div>
         </div>
+        <div class="form-group">
+            <label>Client</label>
+            <input type="text" class="form-control" formControlName="client" id="client"
+                   [ngClass]="{'is-invalid':submitted && contratFormGroup.controls['client'].errors}">
+            <div *ngIf="submitted && contratFormGroup.controls['client'].errors" class="invalid-feedback">
+                <div *ngIf="contratFormGroup.controls['client'].errors['required']">Client is Required</div>
+            </div>
+        </div>        
+        <div class="form-group">
+            <label>Option</label>
+            <input type="text" class="form-control" formControlName="option" id="option">
+            
+        </div>
+        
+        <button class="btn btn-success" (click)="onSavecontrat()">Ajuter</button>
     </form>
 </div>
 

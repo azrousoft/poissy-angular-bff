@@ -104,15 +104,21 @@ export class ContratService {
     return this.http.get<Contrat>(url+id);
   }
 
-  deleteProduct(contrat:Contrat){
-    
+  deleteContrat(id:number){    
+    let host=environment.host+":"+environment.contratPort;
+    let url=host+"/api/v1/consultation/contrats/";
+    return this.http.delete<Contrat>(url+id);
   }
 
-  save(contrat:Contrat){
-
+  saveContrat(contrat:Contrat){
+    let host=environment.host+":"+environment.contratPort;
+    let url=host+"/api/v1/consultation/contrats/";
+    return this.http.post<Contrat>(url, contrat);
   }
   updateContrat(contrat:Contrat){
-    
+    let host=environment.host+":"+environment.contratPort;
+    let url=host+"/api/v1/consultation/contrats/";
+    return this.http.put<Contrat>(url,contrat);    
   }
 
 }

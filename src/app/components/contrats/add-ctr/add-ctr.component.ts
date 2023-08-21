@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ContratService } from 'src/app/services/contrat.service';
 
 @Component({
   selector: 'app-add-ctr',
@@ -10,7 +11,7 @@ export class AddCtrComponent implements OnInit {
   contratFormGroup?: FormGroup;
   submitted:boolean=false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private contratSrv: ContratService) { }
 
   ngOnInit(): void {
     this.contratFormGroup = this.fb.group({
@@ -21,10 +22,13 @@ export class AddCtrComponent implements OnInit {
 
   }
 
-  onSave(){
+  onSavecontrat(){    
     this.submitted=true;
     if(this.contratFormGroup?.invalid) return;    
-    alert("Contrat saved");
+    this.contratSrv.saveContrat(this.contratFormGroup?.value)
+      .subscribe(data=>{
+        alert("Contrat enregistré!");
+      });
   }
 
 }

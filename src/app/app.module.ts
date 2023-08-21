@@ -19,6 +19,7 @@ import { ListCtrComponent } from './components/contrats/list-ctr/list-ctr.compon
 import { AddCtrComponent } from './components/contrats/add-ctr/add-ctr.component';
 import { UpdateCtrComponent } from './components/contrats/update-ctr/update-ctr.component';
 import { ConsultCtrComponent } from './components/contrats/consult-ctr/consult-ctr.component';
+import { ItemCtrComponent } from './components/contrats/item-ctr/item-ctr.component';
 
 export function azFactory(azSec: AzKeycloakSecurityService){
   return () => azSec.init();
@@ -37,7 +38,8 @@ export function azFactory(azSec: AzKeycloakSecurityService){
     ListCtrComponent,
     AddCtrComponent,
     UpdateCtrComponent,
-    ConsultCtrComponent
+    ConsultCtrComponent,
+    ItemCtrComponent
   ],
   imports: [
     BrowserModule,

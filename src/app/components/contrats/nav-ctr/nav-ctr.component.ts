@@ -4,6 +4,7 @@ import { ContratService } from 'src/app/services/contrat.service';
 import {catchError, map, Observable, of, startWith} from 'rxjs';
 import { AppDataState, DataStateEnum, PageActionEvent, PageCommand } from 'src/app/state/produit.state';
 import { Contrat } from 'src/app/entities/contrat.entities';
+import { EventDriverService } from 'src/app/state/event.driver.service.state';
 
 
 @Component({
@@ -12,7 +13,7 @@ import { Contrat } from 'src/app/entities/contrat.entities';
   styleUrls: ['./nav-ctr.component.css']
 })
 export class NavCtrComponent implements OnInit {
-  @Output() contratEeventEmitter: EventEmitter<PageActionEvent> =new EventEmitter();
+  // @Output() contratEeventEmitter: EventEmitter<PageActionEvent> =new EventEmitter();
 
   public statusContratApi: any;
   public statusSanteBff: any;
@@ -20,42 +21,30 @@ export class NavCtrComponent implements OnInit {
   contrats$:Observable<AppDataState<Contrat[]>> |null=null;
   readonly DataStateEnum=DataStateEnum;
   
-  constructor() { }
+  constructor(private eventDriverSrv: EventDriverService) { }
 
   ngOnInit(): void {
   }
   
   onGetAllContrats() {
-    this.contratEeventEmitter.emit({type: PageCommand.ALL});
+    //this.contratEeventEmitter.emit({type: PageCommand.ALL});
+    this.eventDriverSrv.publishEvent({type: PageCommand.ALL});
   }
   onSearch(dataForm: any) {
-    this.contratEeventEmitter.emit({type: PageCommand.SEARCH, payload: dataForm});
+    //this.contratEeventEmitter.emit({type: PageCommand.SEARCH, payload: dataForm});
+    this.eventDriverSrv.publishEvent({type: PageCommand.SEARCH, payload: dataForm});
   }
 
-  onGetSelectedContrats() {
-    
+  onGetSelectedContrats() {   
+    this.eventDriverSrv.publishEvent({type: PageCommand.CONSULT}); 
   }
 
-  onGetAvailableContrats() {
-   
-  }
-
-  
-
-  onSelect(c: Contrat) {
-    
-  }
-
-  onDelete() {
-    
-  }
+  onGetAvailableContrats() {    //envigeur   
+  }  
 
   onNewContrat() {
-    //this.router.navigateByUrl("/newContrat");
-  }
-
-  onEdit() {
-    //this.router.navigateByUrl("/editContrat/"+p.id);
+    alert("onNewContrat");
+    this.eventDriverSrv.publishEvent({type: PageCommand.ADD}); 
   }
 
  }

@@ -5,6 +5,7 @@ import {catchError, map, startWith} from 'rxjs/operators';
 import { ContratBean } from 'src/app/daos/contrat-bean.daos';
 import { Contrat } from 'src/app/entities/contrat.entities';
 import { ContratService } from 'src/app/services/contrat.service';
+import { EventDriverService } from 'src/app/state/event.driver.service.state';
 import { AppDataState, DataStateEnum, PageActionEvent, PageCommand } from 'src/app/state/produit.state';
 
 @Component({
@@ -17,20 +18,32 @@ export class ContratsComponent implements OnInit {
   contratBean$:Observable<AppDataState<ContratBean>> |null=null;
   readonly DataStateEnum=DataStateEnum;
 
-  constructor(private contratSrv:ContratService, private router:Router) { }
+  constructor(private contratSrv:ContratService, private router:Router, 
+              private eventDriverSrv: EventDriverService) { }
 
   ngOnInit(): void {
     //this.getStatus();
     //this.getStatusFromBff();
+    // subscrib to eventDriverSrv au démarrage du component
+    this.eventDriverSrv.contratSourceEventSubjectObservable.subscribe(
+      (event: PageActionEvent)=>{ //j'attend un event de type PageActionEvent
+        this.onContratActionEvent(event);
+      }
+    );
     this.initContrat();
   } 
   
   onContratActionEvent($event: PageActionEvent){
-    if($event.type==PageCommand.ALL){
-      this.onGetAllContrats();
-    }else if($event.type==PageCommand.SEARCH){
-      this.onSearch($event.payload);
+    switch ($event.type) {
+      case PageCommand.ALL: this.onGetAllContrats();break;
+      case PageCommand.SEARCH: this.onSearch($event.payload);break;
+      case PageCommand.ADD: this.onNewContrat();break;
+      case PageCommand.CONSULT: this.onGetSelectedContrats($event.payload);break;
+      case PageCommand.DELETE: this.onDelete($event.payload);break;
+      case PageCommand.UPDATE: this.onEdit($event.payload);break;
     }
+
+   
   }
   
   onGetAllContrats(){
@@ -73,10 +86,9 @@ export class ContratsComponent implements OnInit {
       startWith({dataState:DataStateEnum.LOADING}),
       catchError(err=>of({dataState:DataStateEnum.ERROR, errorMessage:err.message}))
     );
-    ;
   }
 
-  onGetSelectedContrats() {
+  onGetSelectedContrats(c: Contrat) {
     this.contrat$= this.contratSrv.getSelectedContrats().pipe(
       map(data=>{
         console.log(data);
@@ -98,17 +110,8 @@ export class ContratsComponent implements OnInit {
     );
   }
 
-  
-
-  onSelect(c: Contrat) {
-   
-  }
-
-  onDelete(c: Contrat) {
-     
-  }
-
   onNewContrat() {
+    alert("onNewContrat");
     this.router.navigateByUrl("/contratsAdd");
   }
 
@@ -117,4 +120,14 @@ export class ContratsComponent implements OnInit {
     this.router.navigateByUrl("/contratsUpdate/"+c.id);
   }
 
+  onDelete(c: Contrat) {
+    let v=confirm("Voulez vous vraiment supprimer ce contrat?");
+    if(v==true){
+      this.contratSrv.deleteContrat(c.id)
+      .subscribe(data=>{
+        this.onGetAllContrats();
+      })
+    }
+    
+  }
 }

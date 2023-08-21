@@ -1,1 +1,35 @@
-<p>list-ctr works!</p>
+<div class="container">
+    <ng-container *ngIf="(contratsInput | async) as result" [ngSwitch]="result.dataState">
+      <ng-container *ngSwitchCase="DataStateEnum.LOADING">
+        Loading .....
+      </ng-container>
+      <ng-container *ngSwitchCase="DataStateEnum.ERROR">
+        <div class="alert-danger">
+          {{result.errorMessage}}
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="DataStateEnum.LOADED">
+        <table class="table">
+          <thead>
+              <tr>
+                  <th>N° Contrat</th>
+                  <th>N° Produit</th>
+                  <th>N° Client</th>
+                  <th>Date Emission</th>
+                  <th>Type</th>
+                  <th>Emit</th>
+                  <th>En vigeur</th>
+              </tr>
+          </thead>
+          <tbody>
+            <app-item-ctr
+                [contrat]="c"
+                (eventEmitter)="onActionEvent($event)"
+                *ngFor="let c of result.data" style="display: contents">
+            </app-item-ctr>  
+        </tbody>  
+        </table>
+      </ng-container>
+    </ng-container>  
+  </div>
+  
